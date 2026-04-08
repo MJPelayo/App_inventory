@@ -44,6 +44,8 @@ func SetupRoutes() *mux.Router {
     api.HandleFunc("/inventory", handlers.GetInventory).Methods("GET")
     api.HandleFunc("/inventory/low-stock", handlers.GetLowStock).Methods("GET")
     api.HandleFunc("/inventory/receive", handlers.ReceiveStock).Methods("POST")
+    api.HandleFunc("/inventory/reserve", handlers.ReserveInventory).Methods("POST")
+    api.HandleFunc("/inventory/release", handlers.ReleaseInventory).Methods("POST")
 
     // ==================== SALES ORDER ROUTES ====================
     api.HandleFunc("/sales-orders", handlers.GetSalesOrders).Methods("GET")

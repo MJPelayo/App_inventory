@@ -14,7 +14,7 @@ type Product struct {
     Cost        float64   `json:"cost"`         // Purchase cost from supplier
     CategoryID  int       `json:"category_id"`  // Foreign key to categories table
     SupplierID  int       `json:"supplier_id"`  // Foreign key to suppliers table
-    ImageURL    string    `json:"image_url"`    // Optional product image path
+    ImageURL    *string   `json:"image_url"`    // Optional product image path (nullable)
     IsActive    bool      `json:"is_active"`    // Soft delete flag
     CreatedAt   time.Time `json:"created_at"`   // Record creation timestamp
     UpdatedAt   time.Time `json:"updated_at"`   // Last update timestamp

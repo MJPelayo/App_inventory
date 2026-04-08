@@ -11,9 +11,6 @@ import (
     _ "github.com/lib/pq" // PostgreSQL driver
 )
 
-// DB is the global database connection pointer
-var DB *sql.DB
-
 // PostgresConfig holds all database connection parameters
 type PostgresConfig struct {
     Host     string

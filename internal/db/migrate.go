@@ -8,9 +8,25 @@ import (
 	"sort"
 )
 
+// MigrationsApplied checks if migrations have already been run by checking schema_migrations table
+func MigrationsApplied() bool {
+    // Check if schema_migrations table exists and has entries
+    var count int
+    err := DB.QueryRow("SELECT COUNT(*) FROM schema_migrations").Scan(&count)
+    if err != nil {
+        return false
+    }
+    return count > 0
+}
+
 // RunMigrations executes all SQL migration files in order
 // Files must be named: 001_name.up.sql, 002_name.up.sql, etc.
 func RunMigrations() error {
+    // Skip migrations if they've already been applied
+    if MigrationsApplied() {
+        log.Println("✅ Migrations already applied, skipping...")
+        return nil
+    }
 	// Path to migrations folder
 	migrationsDir := "internal/db/migrations"
 
@@ -24,7 +40,7 @@ func RunMigrations() error {
 	var migrationFiles []string
 	for _, file := range files {
 		name := file.Name()
-		if !file.IsDir() && filepath.Ext(name) == ".sql" {
+		if !file.IsDir() && filepath.Ext(name) == ".sql" && filepath.Base(name)[len(name)-7:] == ".up.sql" {
 			migrationFiles = append(migrationFiles, name)
 		}
 	}

@@ -24,13 +24,13 @@ func GetWarehouses(w http.ResponseWriter, r *http.Request) {
 
     var warehouses []models.Warehouse
     for rows.Next() {
-        var w models.Warehouse
-        err := rows.Scan(&w.ID, &w.Name, &w.Location, &w.Capacity, &w.CurrentOccupancy, &w.IsActive, &w.CreatedAt, &w.UpdatedAt)
+        var warehouse models.Warehouse
+        err := rows.Scan(&warehouse.ID, &warehouse.Name, &warehouse.Location, &warehouse.Capacity, &warehouse.CurrentOccupancy, &warehouse.IsActive, &warehouse.CreatedAt, &warehouse.UpdatedAt)
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
-        warehouses = append(warehouses, w)
+        warehouses = append(warehouses, warehouse)
     }
 
     w.Header().Set("Content-Type", "application/json")

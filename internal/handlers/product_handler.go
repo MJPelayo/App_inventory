@@ -1,6 +1,7 @@
 package handlers
 
 import (
+    "database/sql"
     "encoding/json"
     "net/http"
     "strconv"
@@ -26,11 +27,15 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
     var products []models.Product
     for rows.Next() {
         var p models.Product
+        var imageURL sql.NullString
         err := rows.Scan(
             &p.ID, &p.Name, &p.Description, &p.SKU, &p.Brand,
             &p.Price, &p.Cost, &p.CategoryID, &p.SupplierID,
-            &p.ImageURL, &p.IsActive, &p.CreatedAt, &p.UpdatedAt,
+            &imageURL, &p.IsActive, &p.CreatedAt, &p.UpdatedAt,
         )
+        if imageURL.Valid {
+            p.ImageURL = &imageURL.String
+        }
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
@@ -53,15 +58,19 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 
     // Get product details
     var product models.Product
+    var imageURL sql.NullString
     err = db.DB.QueryRow(`
-        SELECT id, name, description, sku, brand, price, cost, 
+        SELECT id, name, description, sku, brand, price, cost,
                category_id, supplier_id, image_url, is_active, created_at, updated_at
         FROM products WHERE id = $1
     `, id).Scan(
         &product.ID, &product.Name, &product.Description, &product.SKU, &product.Brand,
         &product.Price, &product.Cost, &product.CategoryID, &product.SupplierID,
-        &product.ImageURL, &product.IsActive, &product.CreatedAt, &product.UpdatedAt,
+        &imageURL, &product.IsActive, &product.CreatedAt, &product.UpdatedAt,
     )
+    if imageURL.Valid {
+        product.ImageURL = &imageURL.String
+    }
     
     if err != nil {
         http.Error(w, "Product not found", http.StatusNotFound)
