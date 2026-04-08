@@ -1,4 +1,4 @@
-package models
+
 // Package models defines data structures for API requests and responses
 package models
 

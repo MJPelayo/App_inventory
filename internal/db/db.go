@@ -1,4 +1,4 @@
-package db
+
 // Package db handles database connection, migrations, and queries
 package db
 
