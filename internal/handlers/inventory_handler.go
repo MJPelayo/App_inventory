@@ -140,7 +140,7 @@ func ReceiveStock(w http.ResponseWriter, r *http.Request) {
         INSERT INTO stock_movements (product_id, warehouse_id, quantity_change, movement_type, 
                                      reason, reference_number, performed_by, previous_quantity, new_quantity)
         VALUES ($1, $2, $3, 'received', $4, $5, $6, $7, $7 + $3)
-    `, req.ProductID, req.WarehouseID, req.Quantity, req.Reason, req.PONumber, 1, currentQty)
+    `, req.ProductID, req.WarehouseID, req.Quantity, req.Reason, req.PONumber, 1, currentQty) // TODO: Replace 1 with actual user ID from JWT context
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
@@ -217,7 +217,7 @@ func ReserveInventory(w http.ResponseWriter, r *http.Request) {
         INSERT INTO stock_movements (product_id, warehouse_id, quantity_change, movement_type,
                                      reason, reference_number, performed_by, previous_quantity, new_quantity)
         VALUES ($1, $2, $3, 'reserved', $4, $5, $6, $7, $7)
-    `, req.ProductID, req.WarehouseID, req.Quantity, "Order reservation", req.OrderID, 1, availableQty)
+    `, req.ProductID, req.WarehouseID, req.Quantity, "Order reservation", req.OrderID, 1, availableQty) // TODO: Replace 1 with actual user ID from JWT context
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
@@ -295,7 +295,7 @@ func ReleaseInventory(w http.ResponseWriter, r *http.Request) {
         INSERT INTO stock_movements (product_id, warehouse_id, quantity_change, movement_type,
                                      reason, reference_number, performed_by, previous_quantity, new_quantity)
         VALUES ($1, $2, $3, 'released', $4, $5, $6, $7, $7)
-    `, req.ProductID, req.WarehouseID, req.Quantity, "Order cancellation/release", req.OrderID, 1, currentReserved)
+    `, req.ProductID, req.WarehouseID, req.Quantity, "Order cancellation/release", req.OrderID, 1, currentReserved) // TODO: Replace 1 with actual user ID from JWT context
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return

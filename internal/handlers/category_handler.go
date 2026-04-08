@@ -50,20 +50,20 @@ func GetCategoryTree(w http.ResponseWriter, r *http.Request) {
 
     // Build map of categories
     categoryMap := make(map[int]*models.CategoryTree)
-    var rootCategories []models.CategoryTree
+    var rootCategories []*models.CategoryTree
 
     for rows.Next() {
         var id, parentID int
         var name, description string
         rows.Scan(&id, &name, &parentID, &description)
         
-        cat := models.CategoryTree{
+        cat := &models.CategoryTree{
             ID:          id,
             Name:        name,
             Description: description,
-            Children:    []models.CategoryTree{},
+            Children:    []*models.CategoryTree{},
         }
-        categoryMap[id] = &cat
+        categoryMap[id] = cat
 
         if parentID == 0 {
             rootCategories = append(rootCategories, cat)

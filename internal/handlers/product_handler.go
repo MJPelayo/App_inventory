@@ -93,6 +93,7 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 
     type InventoryInfo struct {
         ID            int    `json:"id"`
+        ProductID     int    `json:"product_id"`
         WarehouseID   int    `json:"warehouse_id"`
         WarehouseName string `json:"warehouse_name"`
         Quantity      int    `json:"quantity"`
@@ -103,7 +104,7 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
     var inventory []InventoryInfo
     for invRows.Next() {
         var inv InventoryInfo
-        err := invRows.Scan(&inv.ID, &inv.WarehouseID, &inv.WarehouseName, &inv.Quantity, &inv.ReorderPoint, &inv.MaxStock)
+        err := invRows.Scan(&inv.ID, &inv.ProductID, &inv.WarehouseID, &inv.Quantity, &inv.ReorderPoint, &inv.MaxStock, &inv.WarehouseName)
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return

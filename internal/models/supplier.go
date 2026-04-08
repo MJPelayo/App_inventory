@@ -4,21 +4,21 @@ import "time"
 
 // Supplier represents a company that provides products to the business
 type Supplier struct {
-    ID               int       `json:"id"`                  // Unique supplier identifier
-    Name             string    `json:"name"`                // Supplier company name
-    ContactPerson    string    `json:"contact_person"`      // Primary contact name
-    Phone            string    `json:"phone"`               // Contact phone number
-    Email            string    `json:"email"`               // Contact email address
-    Address          string    `json:"address"`             // Physical/billing address
-    TaxID            string    `json:"tax_id"`              // Tax identification number
-    PaymentTerms     string    `json:"payment_terms"`       // e.g., "Net 30", "Net 60"
-    LeadTimeDays     int       `json:"lead_time_days"`      // Average delivery days
-    MinimumOrder     int       `json:"minimum_order"`       // Minimum quantity required
-    Rating           float64   `json:"rating"`              // Performance rating (0-5)
-    TotalOrders      int       `json:"total_orders"`        // Total purchase orders placed
-    OnTimeDeliveries int       `json:"on_time_deliveries"`  // Count of on-time deliveries
-    CreatedAt        time.Time `json:"created_at"`          // Record creation timestamp
-    UpdatedAt        time.Time `json:"updated_at"`          // Last update timestamp
+    ID               int        `json:"id"`                  // Unique supplier identifier
+    Name             string     `json:"name"`                // Supplier company name
+    ContactPerson    *string    `json:"contact_person,omitempty"`      // Primary contact name
+    Phone            *string    `json:"phone,omitempty"`               // Contact phone number
+    Email            *string    `json:"email,omitempty"`               // Contact email address
+    Address          *string    `json:"address,omitempty"`             // Physical/billing address
+    TaxID            *string    `json:"tax_id,omitempty"`              // Tax identification number
+    PaymentTerms     *string    `json:"payment_terms,omitempty"`       // e.g., "Net 30", "Net 60"
+    LeadTimeDays     *int       `json:"lead_time_days,omitempty"`      // Average delivery days
+    MinimumOrder     *int       `json:"minimum_order,omitempty"`       // Minimum quantity required
+    Rating           float64    `json:"rating"`              // Performance rating (0-5)
+    TotalOrders      int        `json:"total_orders"`        // Total purchase orders placed
+    OnTimeDeliveries int        `json:"on_time_deliveries"`  // Count of on-time deliveries
+    CreatedAt        time.Time  `json:"created_at"`          // Record creation timestamp
+    UpdatedAt        time.Time  `json:"updated_at"`          // Last update timestamp
 }
 
 // SupplierPerformance tracks supplier metrics over time

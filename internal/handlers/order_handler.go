@@ -56,7 +56,7 @@ func CreateSalesOrder(w http.ResponseWriter, r *http.Request) {
         VALUES ($1, $2, $3, $4, $5, $6, $7, $7, $8)
         RETURNING id
     `, orderNumber, req.CustomerName, req.CustomerEmail, req.CustomerPhone,
-        req.ShippingAddress, req.DeliveryType, subtotal, 1).Scan(&orderID)
+        req.ShippingAddress, req.DeliveryType, subtotal, 1).Scan(&orderID) // TODO: Replace 1 with actual user ID from JWT context
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
